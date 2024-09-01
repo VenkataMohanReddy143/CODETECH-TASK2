@@ -1,12 +1,20 @@
-## NAME:AVULA.VENKATA MOHAN REDDY
-## COMPANY:CODETECH IT SOLUTIONS
-## ID:
+## NAME: AVULA.VENKATA MOHAN REDDY
+## COMPANY:CODETECH IT SOLUTIONS PVT.LTD
+## ID:CT08DS7283
 ## DOMAIN:JAVA PROGRAMMING
-## DURATION:
-## MENTOR:
+## DURATION:AUGUST 20TH,2024 TO SEPTEMBER 20TH,2024.
+## MENTOR: NEELA SANTHOSH KUMAR
 ## Overview of the project:
 ## Project:Exploratory java programming on HOSPITAL MANAGEMENT SYSTEM
+![Screenshot 2024-09-01 160648](https://github.com/user-attachments/assets/fcb6f71d-99b0-460b-9a20-79ea7e116a92)
 
+![Screenshot 2024-09-01 160718](https://github.com/user-attachments/assets/bc90bd6a-c7cd-483f-b838-ae74195e8059)
+
+![Screenshot 2024-09-01 160736](https://github.com/user-attachments/assets/a31bdaa2-65e9-4de8-99bb-beca072a02e3)
+
+![Screenshot 2024-09-01 160751](https://github.com/user-attachments/assets/a5eab678-f91b-40aa-b8cb-b21eba731820)
+
+![Screenshot 2024-09-01 160810](https://github.com/user-attachments/assets/b74b703c-dace-4340-94c8-cb86b47512cf)
 
 ## Objective
 The goal of this project is to develop a comprehensive Java-based application that efficiently manages the various aspects of a hospital or healthcare facility. This system will streamline operations by automating tasks such as patient registration, appointment scheduling, electronic health records (EHR) management, billing, inventory management for medical supplies, and staff management. The program aims to enhance patient care, optimize administrative workflows, and improve overall operational efficiency.
