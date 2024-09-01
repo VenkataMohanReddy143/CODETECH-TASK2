@@ -1,0 +1,328 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+// Main Class
+public class HospitalManagementSystem {
+    private static List<Patient> patients = new ArrayList<>();
+    private static List<Staff> staff = new ArrayList<>();
+    private static List<Appointment> appointments = new ArrayList<>();
+    private static List<MedicalSupply> inventory = new ArrayList<>();
+    private static Map<Integer, Bill> billing = new HashMap<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nHospital Management System");
+            System.out.println("1. Patient Registration");
+            System.out.println("2. Appointment Scheduling");
+            System.out.println("3. Electronic Health Records (EHR)");
+            System.out.println("4. Billing and Invoicing");
+            System.out.println("5. Inventory Management");
+            System.out.println("6. Staff Management");
+            System.out.println("7. Exit");
+            System.out.print("Select an option: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    registerPatient(scanner);
+                    break;
+                case 2:
+                    scheduleAppointment(scanner);
+                    break;
+                case 3:
+                    viewEHR(scanner);
+                    break;
+                case 4:
+                    handleBilling(scanner);
+                    break;
+                case 5:
+                    manageInventory(scanner);
+                    break;
+                case 6:
+                    manageStaff(scanner);
+                    break;
+                case 7:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    // Patient Registration
+    private static void registerPatient(Scanner scanner) {
+        System.out.println("\n--- Patient Registration ---");
+        System.out.print("Enter patient name: ");
+        scanner.nextLine(); // consume newline
+        String name = scanner.nextLine();
+        System.out.print("Enter patient age: ");
+        int age = scanner.nextInt();
+        System.out.print("Enter patient gender: ");
+        String gender = scanner.next();
+        System.out.print("Enter patient contact: ");
+        String contact = scanner.next();
+
+        Patient patient = new Patient(name, age, gender, contact);
+        patients.add(patient);
+        System.out.println("Patient registered successfully with ID: " + patient.getId());
+    }
+
+    // Appointment Scheduling
+    private static void scheduleAppointment(Scanner scanner) {
+        System.out.println("\n--- Appointment Scheduling ---");
+        System.out.print("Enter patient ID: ");
+        int patientId = scanner.nextInt();
+        System.out.print("Enter doctor name: ");
+        scanner.nextLine(); // consume newline
+        String doctor = scanner.nextLine();
+        System.out.print("Enter appointment date (dd-mm-yyyy): ");
+        String date = scanner.nextLine();
+
+        Patient patient = findPatientById(patientId);
+        if (patient != null) {
+            Appointment appointment = new Appointment(patient, doctor, date);
+            appointments.add(appointment);
+            System.out.println("Appointment scheduled successfully.");
+        } else {
+            System.out.println("Patient not found.");
+        }
+    }
+
+    // View Electronic Health Records (EHR)
+    private static void viewEHR(Scanner scanner) {
+        System.out.println("\n--- Electronic Health Records (EHR) ---");
+        System.out.print("Enter patient ID: ");
+        int patientId = scanner.nextInt();
+
+        Patient patient = findPatientById(patientId);
+        if (patient != null) {
+            System.out.println("Patient Name: " + patient.getName());
+            System.out.println("Patient Age: " + patient.getAge());
+            System.out.println("Patient Gender: " + patient.getGender());
+            System.out.println("Medical History: " + patient.getMedicalHistory());
+        } else {
+            System.out.println("Patient not found.");
+        }
+    }
+
+    // Billing and Invoicing
+    private static void handleBilling(Scanner scanner) {
+        System.out.println("\n--- Billing and Invoicing ---");
+        System.out.print("Enter patient ID: ");
+        int patientId = scanner.nextInt();
+
+        Patient patient = findPatientById(patientId);
+        if (patient != null) {
+            System.out.print("Enter amount to bill: ");
+            double amount = scanner.nextDouble();
+
+            Bill bill = new Bill(patient, amount);
+            billing.put(patientId, bill);
+            System.out.println("Bill generated successfully for patient ID: " + patientId);
+        } else {
+            System.out.println("Patient not found.");
+        }
+    }
+
+    // Inventory Management
+    private static void manageInventory(Scanner scanner) {
+        System.out.println("\n--- Inventory Management ---");
+        System.out.println("1. Add Medical Supply");
+        System.out.println("2. View Inventory");
+        System.out.print("Select an option: ");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter supply name: ");
+                scanner.nextLine(); // consume newline
+                String name = scanner.nextLine();
+                System.out.print("Enter quantity: ");
+                int quantity = scanner.nextInt();
+                inventory.add(new MedicalSupply(name, quantity));
+                System.out.println("Medical supply added to inventory.");
+                break;
+            case 2:
+                System.out.println("Inventory:");
+                for (MedicalSupply supply : inventory) {
+                    System.out.println("Supply: " + supply.getName() + ", Quantity: " + supply.getQuantity());
+                }
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+
+    // Staff Management
+    private static void manageStaff(Scanner scanner) {
+        System.out.println("\n--- Staff Management ---");
+        System.out.print("Enter staff name: ");
+        scanner.nextLine(); // consume newline
+        String name = scanner.nextLine();
+        System.out.print("Enter job role: ");
+        String role = scanner.next();
+        System.out.print("Enter salary: ");
+        double salary = scanner.nextDouble();
+
+        Staff staffMember = new Staff(name, role, salary);
+        staff.add(staffMember);
+        System.out.println("Staff member added successfully with ID: " + staffMember.getId());
+    }
+
+    // Utility method to find a patient by ID
+    private static Patient findPatientById(int id) {
+        for (Patient patient : patients) {
+            if (patient.getId() == id) {
+                return patient;
+            }
+        }
+        return null;
+    }
+}
+
+// Patient Class
+class Patient {
+    private static int idCounter = 1;
+    private int id;
+    private String name;
+    private int age;
+    private String gender;
+    private String contact;
+    private String medicalHistory = "No history available.";
+
+    public Patient(String name, int age, String gender, String contact) {
+        this.id = idCounter++;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.contact = contact;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getMedicalHistory() {
+        return medicalHistory;
+    }
+
+    public void setMedicalHistory(String medicalHistory) {
+        this.medicalHistory = medicalHistory;
+    }
+}
+
+// Appointment Class
+class Appointment {
+    private Patient patient;
+    private String doctor;
+    private String date;
+
+    public Appointment(Patient patient, String doctor, String date) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.date = date;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public String getDate() {
+        return date;
+    }
+}
+
+// Bill Class
+class Bill {
+    private Patient patient;
+    private double amount;
+
+    public Bill(Patient patient, double amount) {
+        this.patient = patient;
+        this.amount = amount;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+}
+
+// MedicalSupply Class
+class MedicalSupply {
+    private String name;
+    private int quantity;
+
+    public MedicalSupply(String name, int quantity) {
+        this.name = name;
+        this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+}
+
+// Staff Class
+class Staff {
+    private static int idCounter = 1;
+    private int id;
+    private String name;
+    private String role;
+    private double salary;
+
+    public Staff(String name, String role, double salary) {
+        this.id = idCounter++;
+        this.name = name;
+        this.role = role;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+}
